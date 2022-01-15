@@ -70,5 +70,9 @@ def lime():
 def download_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
 
+# docker build -t docker_image_name .
+# docker run --rm -it -p 7000:5000 docker_image_name
+
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', debug=True)    
+    # app.run(host='127.0.0.1', debug=True) # For Local
+    app.run(host='0.0.0.0', debug=True) # For Docker
