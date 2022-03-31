@@ -14,6 +14,7 @@ import Login from './views/Login';
 import Register from './views/Register';
 import TryMeCarousel from './views/TryMe';
 import TryMe from './components/sections/TryMe';
+import TryMeResult from './views/TryMeResult';
 // import FullPageCarousel from "./components/elements/FullPageCarousel";
 // import { TryMe } from './views/TryMe';
 
@@ -38,6 +39,7 @@ const App = () => {
           <AppRoute path="/login" component={Login} layout={LayoutDefault} />
           <AppRoute path="/register" component={Register} layout={LayoutDefault} />
           <AppRoute path="/try-me" component={TryMeCarousel}  layout={LayoutDefault} />
+          <AppRoute path="/result/:id" component={TryMeResult}  layout={LayoutDefault} />
         </Switch>
       )} />
   );
