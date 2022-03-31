@@ -42,7 +42,7 @@ def LIME_Implementation(file, filename):
     new_img = new_img.astype('float32')
 
     explainer = lime_image.LimeImageExplainer()
-    explanation = explainer.explain_instance(new_img[0].astype('double'), model.predict, top_labels=3, hide_color=0, num_samples=50)
+    explanation = explainer.explain_instance(new_img[0].astype('double'), model.predict, top_labels=3, hide_color=0, num_samples=1000)
 
     temp_1, mask_1 = explanation.get_image_and_mask(explanation.top_labels[0], positive_only=True, negative_only=False, num_features=10, hide_rest=True)
     temp_2, mask_2 = explanation.get_image_and_mask(explanation.top_labels[0], positive_only=False, negative_only=True, num_features=10, hide_rest=True)
