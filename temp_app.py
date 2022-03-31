@@ -51,6 +51,11 @@ def opencv():
     elif request.method == 'GET':
         return render_template('upload.html')
 
+@app.route('/', methods=['POST', 'GET'])
+def home():
+    file = 'Output/007_518.png'
+    return send_file(file, mimetype='image/gif'), 200
+
 
 @app.route('/Output/<path:filename>')
 def download_file(filename):
