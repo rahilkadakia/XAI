@@ -74,3 +74,42 @@
 .testimonial {
   margin-top:50px
 }
+
+.lime-img {
+  height: 300px;
+  width: 500px;
+}
+
+input[type=file]::file-selector-button {
+  border: 2px solid #f3f3f6;
+  padding: .2em .4em;
+  border-radius: .2em;
+  background-color: #6163FF;
+  transition: 1s;
+  margin-left: 150px;
+}
+
+input[type=file]::file-selector-button:hover {
+  background-color: #167bff;
+  border: 2px solid #167bff;
+}
+
+.submit-img {
+  border: 2px solid #f3f3f6;
+  padding: .2em .4em;
+  border-radius: .2em;
+  background-color: #6163FF;
+  transition: 1s;
+  margin-top: 50px;
+}
+
+.submit-img:hover {
+  background-color: #167bff;
+  border: 2px solid #167bff;
+}
+
+.results-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}

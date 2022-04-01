@@ -25,6 +25,7 @@
     "react-chrono": "^1.14.0",
     "react-dom": "^16.13.1",
     "react-ga": "^2.7.0",
+    "react-loader-spinner": "^6.0.0-0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1",
     "react-simply-carousel": "^5.1.4",

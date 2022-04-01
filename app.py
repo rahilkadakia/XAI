@@ -51,6 +51,7 @@ def allowed_file(filename):
 #     elif request.method == 'GET':
 #         return render_template('upload.html')
 
+
 @app.route("/", methods=['POST', 'GET'])
 def home():
     return "Working", 200
@@ -148,7 +149,7 @@ def download_file(filename):
 
 
 @app.route('/<file_name>', methods=['POST', 'GET'])
-def home(file_name):
+def getImage(file_name):
     file = 'Output/' + file_name + '.png'
     return send_file(file, mimetype='image/png'), 200
 
