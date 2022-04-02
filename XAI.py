@@ -1,4 +1,3 @@
-from telnetlib import STATUS
 import tensorflow as tf
 from tensorflow.keras.applications.vgg16 import preprocess_input
 import shap
@@ -7,7 +6,6 @@ from PIL import Image
 from skimage.segmentation import mark_boundaries
 from lime import lime_image
 import matplotlib.pyplot as plt
-from flask import send_file, Response
 
 model = tf.keras.models.load_model('Models/VGG16')
 
@@ -56,14 +54,34 @@ def LIME_Implementation(file, filename):
     temp_2, mask_2 = explanation.get_image_and_mask(
         explanation.top_labels[0], positive_only=False, negative_only=True, num_features=10, hide_rest=True)
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 15))
+    fig1, ax1 = plt.subplots(1, 1, figsize=(15, 15))
+    plt.tight_layout(pad=0)
+
+    fig2, ax2 = plt.subplots(1, 1, figsize=(15, 15))
+    plt.tight_layout(pad=0)
+
     ax1.imshow(mark_boundaries(temp_1, mask_1))
     ax2.imshow(mark_boundaries(temp_2, mask_2))
     ax1.axis('off')
     ax2.axis('off')
 
-    # fig.savefig(f'open-react-template/public/images/LIME/{filename}.png')
-    fig.savefig(f'Output/{filename}.png')
+    fig1.savefig(f'Output/{filename}_1.png', bbox_inches = 'tight', pad_inches = 0)
+    fig2.savefig(f'Output/{filename}_2.png', bbox_inches = 'tight', pad_inches = 0)
 
     # return "200"
     # return send_file(f'Output/{filename}.png')
+
+def Predict_Class(file):
+    target_names = ['Anger', 'Contempt', 'Disgust', 'Fear', 'Happiness', 'Other', 'Sadness', 'Surprise']
+    img = Image.open(file)
+    img = img.resize((256, 256))
+    img = img.convert('RGB')
+    img = np.asarray(img)
+    new_img = np.expand_dims(img, axis=0)
+    new_img = new_img.astype('float32')
+    np_array = np.asarray(new_img)
+    pred = model.predict(np_array)
+    pred = np.argmax(pred, axis=1)
+    pred_class = target_names[pred[0]]
+
+    return pred_class

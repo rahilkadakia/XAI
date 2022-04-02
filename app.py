@@ -8,6 +8,8 @@ from flask_pymongo import PyMongo
 from OpenCV_Implementation import *
 import certifi
 from pymongo import MongoClient
+
+
 ca = certifi.where()
 
 
@@ -74,13 +76,14 @@ def lime():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             filename = os.path.splitext(filename)[0]
+            pred_class = Predict_Class(file)
 
             # Not returning anything for now
             output = LIME_Implementation(file, filename)
 
             full_filename = filename + '.png'
             file = 'Output/' + full_filename
-            return "200"
+            return pred_class, 200
             # return output
 
     elif request.method == 'GET':
