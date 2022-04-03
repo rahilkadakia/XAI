@@ -81,7 +81,7 @@ def OpenCV_Wrapper(filename):
         for i in range(len(images)):
             images[i] = str(images[i]) + ".jpg"
 
-        video = cv2.VideoWriter(video_name, 0, 6, (256, 256))
+        video = cv2.VideoWriter(video_name, 0, 10, (256, 256))
 
         for image in images:
             video.write(cv2.imread(os.path.join(image_folder, image)))

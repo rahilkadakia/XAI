@@ -54,6 +54,33 @@ def opencv():
         return render_template('upload.html')
 
 
+@app.route("/lime", methods=['POST', 'GET'])
+def lime():
+    if request.method == 'POST':
+
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+
+        file = request.files['file']
+
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            filename = os.path.splitext(filename)[0]
+            pred_class = Predict_Class(file)
+
+            # Not returning anything for now
+            output = LIME_Implementation(file, filename)
+
+            full_filename = filename + '.png'
+            file = 'Output/' + full_filename
+            return pred_class, 200
+
+
 @app.route("/test", methods=['POST', 'GET'])
 def Test():
     if request.method == 'POST':
@@ -81,8 +108,6 @@ def Test():
             return pred_class, 200
 
  
-
-
 @app.route('/', methods=['POST', 'GET'])
 def home():
     file = 'Output/007_518.png'

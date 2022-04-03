@@ -1,6 +1,6 @@
 from flask import Flask
 import os
-from flask import Flask, flash, request, redirect, render_template, send_from_directory, Response
+from flask import Flask, flash, request, redirect, render_template, send_from_directory, Response, send_file
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from XAI import *
