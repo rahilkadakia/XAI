@@ -77,14 +77,8 @@ def lime():
             filename = secure_filename(file.filename)
             filename = os.path.splitext(filename)[0]
             pred_class = Predict_Class(file)
-
-            # Not returning anything for now
-            output = LIME_Implementation(file, filename)
-
-            full_filename = filename + '.png'
-            file = 'Output/' + full_filename
+            LIME_Implementation(file, filename)
             return pred_class, 200
-            # return output
 
     elif request.method == 'GET':
         return render_template('upload.html')
