@@ -4,7 +4,7 @@ import cv2
 def frames_to_video(path):
     image_folder = path
     # image_folder = 'C:\\Users\\Dell\\OneDrive\\Desktop\\test images\\Anger'
-    video_name = 'Surprise.avi'
+    video_name = 'Happiness.avi'
 
     images = [int(img[:-4]) for img in os.listdir(image_folder) if img.endswith(".jpg")]
     images.sort()
@@ -22,36 +22,36 @@ def frames_to_video(path):
 
     return "200"
 
-path = 'C:\\Users\\Dell\\OneDrive\\Desktop\\test images\\Surprise_2\\'
-# frames_to_video(path)
+path = 'C:\\Users\\Dell\\OneDrive\\Desktop\\test images\\Happiness\\'
+frames_to_video(path)
 
-from PIL import Image
-import numpy as np
-import tensorflow as tf
+# from PIL import Image
+# import numpy as np
+# import tensorflow as tf
 
-model = tf.keras.models.load_model('Models/VGG16')
+# model = tf.keras.models.load_model('Models/VGG16')
 
-def Predict_Class():
-    target_names = ['Anger', 'Contempt', 'Disgust', 'Fear', 'Happiness', 'Other', 'Sadness', 'Surprise']
+# def Predict_Class():
+#     target_names = ['Anger', 'Contempt', 'Disgust', 'Fear', 'Happiness', 'Other', 'Sadness', 'Surprise']
 
-    for i in range(40):
-        path = f'Frames\\{i+1}.jpg'
-        img = Image.open(path)
-        img = img.resize((256, 256))
-        img = img.convert('RGB')
-        img = np.asarray(img)
-        new_img = np.expand_dims(img, axis=0)
-        new_img = new_img.astype('float32')
-        np_array = np.asarray(new_img)
+#     for i in range(40):
+#         path = f'Frames\\{i+1}.jpg'
+#         img = Image.open(path)
+#         img = img.resize((256, 256))
+#         img = img.convert('RGB')
+#         img = np.asarray(img)
+#         new_img = np.expand_dims(img, axis=0)
+#         new_img = new_img.astype('float32')
+#         np_array = np.asarray(new_img)
 
-        pred = model.predict(np_array)
-        max_confidence = np.argmax(pred, axis=1)
-        confidence = pred[0][max_confidence]
-        confidence = round((confidence[0] * 100), 2)
-        pred_class = target_names[max_confidence[0]]
+#         pred = model.predict(np_array)
+#         max_confidence = np.argmax(pred, axis=1)
+#         confidence = pred[0][max_confidence]
+#         confidence = round((confidence[0] * 100), 2)
+#         pred_class = target_names[max_confidence[0]]
 
-        output = {'class': pred_class, 'confidence': confidence}
+#         output = {'class': pred_class, 'confidence': confidence}
 
-        print(output)
+#         print(output)
 
-Predict_Class()
+# Predict_Class()
