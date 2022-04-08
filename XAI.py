@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 
 model = tf.keras.models.load_model('Models/VGG16')
 
-
 def f(x):
     tmp = x.copy()
     tmp = preprocess_input(tmp)
@@ -24,8 +23,7 @@ def SHAP_Implementation(file, filename):
     new_img = np.expand_dims(img, axis=0)
     new_img = new_img.astype('float32')
 
-    class_names = ['Angry', 'Fear', 'Happiness', 'Sadness',
-                   'Surprise', 'Disgust', 'Contempt', 'Other']
+    class_names = ['Angry', 'Fear', 'Happiness', 'Sadness', 'Surprise', 'Disgust', 'Contempt', 'Other']
 
     masker = shap.maskers.Image("inpaint_ns", new_img[0].shape)
     explainer = shap.Explainer(f, masker, output_names=class_names)
@@ -47,7 +45,7 @@ def LIME_Implementation(file, filename):
 
     explainer = lime_image.LimeImageExplainer()
     explanation = explainer.explain_instance(new_img[0].astype(
-        'double'), model.predict, top_labels=3, hide_color=0, num_samples=10)
+        'double'), model.predict, top_labels=3, hide_color=0, num_samples=1000)
 
     temp_1, mask_1 = explanation.get_image_and_mask(
         explanation.top_labels[0], positive_only=True, negative_only=False, num_features=10, hide_rest=True)
@@ -71,17 +69,21 @@ def LIME_Implementation(file, filename):
     # return "200"
     # return send_file(f'Output/{filename}.png')
 
-def Predict_Class(file):
+def Predict_Class(path):
     target_names = ['Anger', 'Contempt', 'Disgust', 'Fear', 'Happiness', 'Other', 'Sadness', 'Surprise']
-    img = Image.open(file)
+    img = Image.open(path)
     img = img.resize((256, 256))
     img = img.convert('RGB')
     img = np.asarray(img)
     new_img = np.expand_dims(img, axis=0)
     new_img = new_img.astype('float32')
     np_array = np.asarray(new_img)
-    pred = model.predict(np_array)
-    pred = np.argmax(pred, axis=1)
-    pred_class = target_names[pred[0]]
 
-    return pred_class
+    pred = model.predict(np_array)
+    max_confidence = np.argmax(pred, axis=1)
+    confidence = pred[0][max_confidence]
+    confidence = round((confidence[0] * 100), 2)
+    pred_class = target_names[max_confidence[0]]
+
+    output = {'class': pred_class, 'confidence': confidence}
+    return output

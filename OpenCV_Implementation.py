@@ -3,27 +3,26 @@ import numpy as np
 from PIL import Image
 import os
 
-def OpenCV_Wrapper(filename):
 
+def extractImages(filename):
     pathIn = os.getcwd() + "\\Uploads\\" + filename
+    count = 0
+    vidcap = cv2.VideoCapture(pathIn)
+    success, image = vidcap.read()
+    success = True
 
-    def extractImages():
-        count = 0
-        vidcap = cv2.VideoCapture(pathIn)
-        success, image = vidcap.read()
-        success = True
+    try:
+        while success:
+            vidcap.set(cv2.CAP_PROP_POS_MSEC,(count*1000)) # added this line 
+            success, image = vidcap.read()
+            print ('Read a new frame: ', success)
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            cv2.imwrite("Frames" + "\\%d.jpg" % (count+1), image) # save frame as JPEG file
+            count = count + 1
+    except cv2.error:
+        print ("All frames split")
 
-        try:
-            while success:
-                vidcap.set(cv2.CAP_PROP_POS_MSEC,(count*1000)) # added this line 
-                success, image = vidcap.read()
-                print ('Read a new frame: ', success)
-                image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-                cv2.imwrite("Frames" + "\\%d.jpg" % (count+1), image) # save frame as JPEG file
-                count = count + 1
-        except cv2.error:
-            OpenCV_Algo()
-
+def OpenCV_Wrapper(filename):
     class Pixel:
         def __init__(self, file):
             self.img = cv2.imread(file)
@@ -93,4 +92,4 @@ def OpenCV_Wrapper(filename):
     # path = 'C:\\Users\\Dell\\OneDrive\\Desktop\\test images\\Anger'
     # frames_to_video(path)
 
-    extractImages()
+    OpenCV_Algo()
