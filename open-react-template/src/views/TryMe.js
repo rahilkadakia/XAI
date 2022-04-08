@@ -13,7 +13,7 @@ function TryMeCarousel() {
     const handleSelect = (selectedIndex, e) => {
       setIndex(selectedIndex);
     };
-    const [name, setName] = useState("");
+    const [mxp, setMxp] = useState("");
     const [selectedFile, setSelectedFile] = useState(null);
     const [imageURL, setImageURL] = useState(true);
     const [loading, setLoading] = useState(false)
@@ -31,22 +31,18 @@ function TryMeCarousel() {
         }).then((resp) => {
           console.log(resp);
           setImageURL("http://172.20.10.2:5000/" + selectedFile.name.split(".")[0])
+          setMxp(resp.data.class)
+          // setMxpConf(resp.data.confidence)
           setLoading(false);
           setIndex(index+1)
         })
     };
-  
-    // if(result) {
-    //   history.push(`result/${selectedFile.name.split('.')[0]}`);
-    //   console.log(result)
-    // }
-    // else {
       return (
         <Carousel interval={null} activeIndex={index} onSelect={handleSelect}>
             <Carousel.Item>
               <Carousel.Caption>
                 <h3>Step 1</h3>
-                <p>Choose an image / video depicting Micro Expression</p>
+                <p>Choose a video depicting Micro Expression</p>
               </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
@@ -63,7 +59,7 @@ function TryMeCarousel() {
             </Carousel.Item>
             <Carousel.Item>
               <Carousel.Caption>
-                <h3>Upload The Photo / Video </h3>
+                <h3>Upload The Video </h3>
                 <form style={{padding: "20px"}}>
                   {/* <input
                     type="text"
@@ -92,21 +88,29 @@ function TryMeCarousel() {
               </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item style={{height: "fit-content"}}>
-              <Carousel.Caption style={{height: "fit-content"}}>
-                {/* <h3>Results </h3>
-                <p>Results: </p>
-                <p>Explaination: </p> */}
+              {mxp && <Carousel.Caption style={{height: "fit-content"}}>
+              <h3 style={{"margin-top":"28px"}}>Predicted Micro Expression: {mxp}</h3>
+              {/* <h3 style={{"margin-top":"28px"}}>LIME Explaination</h3> */}
                 <div className='results-container'>
-                {imageURL && <img className = "lime-img" src = "http://172.20.10.2:5000/007_615"/>}
-                <div>
-                  <h4>The Provided Image depicts Happiness</h4>
-                  <h4>In the provided LIME explaination:</h4>
-                  <h5>Left Image: features supporting Happiness</h5>
-                  <h5>Right Image: features opposing Happiness</h5>
+                  <div className="lime-img-left lime-img">
+                    <img className = "lime-img" src = {selectedFile && `http://172.20.10.2:5000/${selectedFile.name.split(".")[0]}_1`}/>
+                    <p>Features Supporting {mxp}</p>
+                  </div>
+                  <div className="lime-img-right lime-img">
+                    <img className = "lime-img" src = {selectedFile && `http://172.20.10.2:5000/${selectedFile.name.split(".")[0]}_2`}/>
+                    <p>Features Opposing {mxp}</p>
+                  </div>
                 </div>
-                </div>
-                
-                <h3 style={{"margin-top":"28px"}}>Results and Explaination</h3>
+              </Carousel.Caption>}
+              
+            </Carousel.Item>
+            <Carousel.Item style={{height: "fit-content"}}>
+              
+              <Carousel.Caption style={{height: "fit-content"}}>
+              <h3 style={{"margin-top":"28px"}}>OpenCV Based Algo Explaination</h3>
+              <div className='results-container'>
+                  <a href="http://172.20.10.2:5000/video/1" className="submit-img">Download Video Output</a>
+              </div>
               </Carousel.Caption>
             </Carousel.Item>
           </Carousel>

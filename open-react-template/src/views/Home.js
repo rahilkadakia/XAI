@@ -18,7 +18,7 @@ const Home = () => {
       {/* <HomeCarousel topDivider /> */}
       <Testimonial />
       <Timeline />
-      <FeaturesTiles />
+      {/* <FeaturesTiles /> */}
       {/* <Carousel invertMobile topDivider imageFill className="illustration-section-02" /> */}
       {/* <Cta split /> */}
     </>

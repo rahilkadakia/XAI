@@ -53,7 +53,7 @@ def lime():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(os.getcwd() + "\\Uploads\\", filename))
-            
+
             extractImages(filename)
             OpenCV_Wrapper(filename)
 
@@ -63,7 +63,7 @@ def lime():
 
             output = Predict_Class(path)
             output = json.dumps(output)
-            
+
             LIME_Implementation(path, filename)
             return output, 200
 
@@ -71,44 +71,26 @@ def lime():
         return render_template('upload.html')
 
 
-@app.route('/Output/<path:filename>')
+@app.route('/Output/<filename>')
 def download_file(filename):
-    return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
+    return send_from_directory(UPLOAD_FOLDER, filename)
 
 # docker build -t docker_image_name .
 # docker run --rm -it -p 7000:5000 docker_image_name
-
-
-# @app.route('/dbtest')
-# def dbtest():
-#     return '''
-#         <form method = "POST" action = "/dbtest/create" enctype = "multipart/form-data">
-#             <input type = "text" name = "filename" />
-#             <input type = "file" name = "input_image" />
-#             <input type = "submit">
-#         </form>
-#     '''
-
-
-# @app.route('/dbtest/create', methods=['POST'])
-# def dbcreate():
-#     print(request.files)
-#     if 'input_image' in request.files:
-#         input_image = request.files['input_image']
-#         print(input_image)
-#         db = client['XAI']
-#         # collection = db['test']
-#         db.save_file(input_image.filename, input_image)
-#         print("SAVEDDD")
-#         db.test.insert_one({'filename': request.form.get(
-#             'filename'), 'input_image_name': input_image.filename})
-#     return 'Done!'
 
 
 @app.route('/<file_name>', methods=['POST', 'GET'])
 def getImage(file_name):
     file = 'Output/' + file_name + '.png'
     return send_file(file, mimetype='image/png'), 200
+
+
+@app.route('/video/<file_name>', methods=['POST', 'GET'])
+def getVideo(file_name):
+    file = 'video_output.avi'
+    return send_file(file)
+    # return url_for('static', filename='style.css')
+    # return send_file(file), 200
 
 
 if __name__ == '__main__':

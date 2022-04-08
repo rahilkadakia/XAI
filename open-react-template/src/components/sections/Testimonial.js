@@ -58,7 +58,7 @@ const HomeCarousel = ({
     >
       <div className="container">
         <div className={innerClasses}>
-          <SectionHeader data={sectionHeader} className="center-content" />
+          {/* <SectionHeader data={sectionHeader} className="center-content" /> */}
           <ControlledCarousel className = "carousel-main" />
         </div>
       </div>

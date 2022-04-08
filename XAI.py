@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 
 model = tf.keras.models.load_model('Models/VGG16')
 
+
 def f(x):
     tmp = x.copy()
     tmp = preprocess_input(tmp)
@@ -23,7 +24,8 @@ def SHAP_Implementation(file, filename):
     new_img = np.expand_dims(img, axis=0)
     new_img = new_img.astype('float32')
 
-    class_names = ['Angry', 'Fear', 'Happiness', 'Sadness', 'Surprise', 'Disgust', 'Contempt', 'Other']
+    class_names = ['Angry', 'Fear', 'Happiness', 'Sadness',
+                   'Surprise', 'Disgust', 'Contempt', 'Other']
 
     masker = shap.maskers.Image("inpaint_ns", new_img[0].shape)
     explainer = shap.Explainer(f, masker, output_names=class_names)
@@ -45,7 +47,7 @@ def LIME_Implementation(file, filename):
 
     explainer = lime_image.LimeImageExplainer()
     explanation = explainer.explain_instance(new_img[0].astype(
-        'double'), model.predict, top_labels=3, hide_color=0, num_samples=1000)
+        'double'), model.predict, top_labels=3, hide_color=0, num_samples=50)
 
     temp_1, mask_1 = explanation.get_image_and_mask(
         explanation.top_labels[0], positive_only=True, negative_only=False, num_features=10, hide_rest=True)
@@ -63,14 +65,16 @@ def LIME_Implementation(file, filename):
     ax1.axis('off')
     ax2.axis('off')
 
-    fig1.savefig(f'Output/{filename}_1.png', bbox_inches = 'tight', pad_inches = 0)
-    fig2.savefig(f'Output/{filename}_2.png', bbox_inches = 'tight', pad_inches = 0)
+    fig1.savefig(f'Output/{filename}_1.png', bbox_inches='tight', pad_inches=0)
+    fig2.savefig(f'Output/{filename}_2.png', bbox_inches='tight', pad_inches=0)
 
     # return "200"
     # return send_file(f'Output/{filename}.png')
 
+
 def Predict_Class(path):
-    target_names = ['Anger', 'Contempt', 'Disgust', 'Fear', 'Happiness', 'Other', 'Sadness', 'Surprise']
+    target_names = ['Anger', 'Contempt', 'Disgust', 'Fear',
+                    'Happiness', 'Other', 'Sadness', 'Surprise']
     img = Image.open(path)
     img = img.resize((256, 256))
     img = img.convert('RGB')
